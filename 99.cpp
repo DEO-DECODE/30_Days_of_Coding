@@ -1,0 +1,117 @@
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// N Queen Problem(GFG)
+
+class Solution{
+public:
+bool isSafe(vector<vector<int>> &board, int row, int col, int n)
+  {
+    if (row < 0 || row > n - 1 || col < 0 || col > n - 1)
+    {
+      return false;
+    }
+    for (int i = row; i >= 0; i--)
+    {
+      if (board[i][col] == 1)
+        return false;
+    }
+    // checking left upper diagonal
+    int x = row;
+    int y = col;
+    // x--;y--;
+    while (true)
+    {
+      if (x < 0 || x > n - 1 || y < 0 || y > n - 1)
+        break;
+      if (board[x][y] == 1)
+        return false;
+      x--;
+      y--;
+    }
+    // checking right upper diagonal.
+    int a = row;
+    int b = col;
+    // a--;b++;
+    // cout<<a<<b<<endl;
+    while (true)
+    {
+      // cout<<arr[a][b]<<endl;
+      if (a < 0 || a > n - 1 || b < 0 || b > n - 1)
+        break;
+      if (board[a][b] == 1)
+        return false;
+      a--;
+      b++;
+    }
+    return true;
+  }
+  void placingNQueen(int n, vector<vector<int>> &ans, int row, vector<vector<int>> &board)
+  {
+    // Base Condition
+
+    if (row == n)
+    {
+      vector<int> temp;
+      for (int i = 0; i < n; ++i)
+      {
+        for (int j = 0; j < n; ++j)
+        {
+          if (board[j][i] == 1)
+          {
+            temp.push_back(j + 1);
+          }
+        }
+      }
+      ans.push_back(temp);
+      // cout<<"\n\n\n";
+      return;
+    }
+    for (int col = 0; col < n; ++col)
+    {
+      if (isSafe(board, row, col, n))
+      {
+        board[row][col] = 1;
+        placingNQueen(n, ans, row + 1, board);
+        board[row][col] = 0;
+      }
+    }
+  }
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        vector<vector<int>> board(n, vector<int>(n, 0)), ans;
+    placingNQueen(n,ans,0,board);
+    sort(ans.begin(), ans.end());
+    return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        
+        Solution ob;
+        vector<vector<int>> ans = ob.nQueen(n);
+        if(ans.size() == 0)
+            cout<<-1<<"\n";
+        else {
+            for(int i = 0;i < ans.size();i++){
+                cout<<"[";
+                for(int u: ans[i])
+                    cout<<u<<" ";
+                cout<<"] ";
+            }
+            cout<<endl;
+        }
+    }
+    return 0;
+}
+// } Driver Code Ends
