@@ -14,7 +14,7 @@ int isEularCircuit(int V, vector<int> adj[])
 			count++;
 		}
 	}
-	// for eular circuit, all are odd degree
+	// for eular circuit, all are Even degrees
 	if (count == 0)
 	{
 		return 2;
